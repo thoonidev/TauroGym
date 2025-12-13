@@ -337,7 +337,7 @@ header a {
 .class__content h4 {
   margin-bottom: 5px;
   font-size: 1.2rem;
-  font-weight: 500;
+  font-weight: bold;
 }
 .class__content p {
   text-align: justify;
@@ -820,7 +820,7 @@ img {
   background: #24303c;
   padding: 30px;
   margin: auto;
-  border-radius: 4px;
+  border-radius: 25px;
   font-family: "calibri";
   color: white;
   box-shadow: 7px 13px 37px #000;
