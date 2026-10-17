@@ -1,10 +1,9 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="./js/jspdf.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.5/jspdf.plugin.autotable.min.js"></script>
+    <script defer src="./js/jspdf.min.js"></script>
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
@@ -14,6 +13,8 @@
     />
     <title>TAURO GYM</title>
     <link rel="stylesheet" href="./css/index.css" />
+    <link rel="stylesheet" href="./css/clases-registro.css" />
+    <link rel="stylesheet" href="./css/componentes.css" />
   </head>
   <body>
     <!-- MENU -->
@@ -40,26 +41,29 @@
           <a href="#galeria" onclick="seleccionar()">Galería</a>
           <a href="#contacto" onclick="seleccionar()">Contacto</a>
         </nav>
-        <div class="content-car" id="carrito">
-          <div class="container-car-icon">
-            <i class="fa-solid fa-cart-shopping"></i>
-            <span id="contador-carrito" class="contador-carrito">0</span>
-          </div>
-          <div class="buy-card hidden-cart">
-            <ul class="nav-card">
-              <li>Imagen</li>
-              <li>Nombre</li>
-              <li>Precio</li>
-              <li>Cantidad</li>
-              <li></li>
-            </ul>
-            <div class="lista_de_clases"></div>
-            <p class="suma-total">S/0.00</p>
-            <button id="vaciar_carrito">VACIAR CARRITO</button>
-            <!-- Agrega el botón después del botón "VACIAR CARRITO" -->
-            <button id="generar-pdf">GENERAR PDF</button>
-          </div>
-        </div>
+        <button
+          type="button"
+          class="container-car-icon"
+          id="abrir-carrito"
+          aria-label="Abrir carrito, 0 sesiones"
+          aria-haspopup="dialog"
+          aria-controls="carrito-panel"
+        >
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            aria-hidden="true"
+          >
+            <path d="M2 3h3l3 12h11l3-9H6" />
+            <circle cx="9" cy="20" r="1" />
+            <circle cx="18" cy="20" r="1" />
+          </svg>
+          <span id="contador-carrito" class="contador-carrito">0</span>
+        </button>
         <!-- Icono del menu responsive -->
         <div
           id="icono-nav"
@@ -70,6 +74,58 @@
         </div>
       </header>
     </div>
+
+    <dialog
+      id="carrito-panel"
+      class="carrito-panel"
+      aria-labelledby="carrito-titulo"
+    >
+      <div class="carrito-cabecera">
+        <div>
+          <span class="llamada-etiqueta">TU ENTRENAMIENTO</span>
+          <h2 id="carrito-titulo">Mi carrito</h2>
+        </div>
+        <button
+          type="button"
+          class="carrito-cerrar"
+          aria-label="Cerrar carrito"
+          autofocus
+        >
+          ×
+        </button>
+      </div>
+      <div class="carrito-contenido">
+        <div class="carrito-vacio">
+          <span class="carrito-vacio-icono" aria-hidden="true">＋</span>
+          <h3>Tu próxima sesión empieza aquí</h3>
+          <p>Agrega las clases que te interesan y organiza tu entrenamiento.</p>
+          <a href="#servicios_principal" class="carrito-explorar"
+            >Explorar clases</a
+          >
+        </div>
+        <ul class="lista_de_clases" aria-label="Clases seleccionadas"></ul>
+      </div>
+      <div class="carrito-resumen" hidden>
+        <div class="carrito-sesiones">
+          <span>Sesiones seleccionadas</span
+          ><strong id="total-sesiones">0</strong>
+        </div>
+        <div class="carrito-total">
+          <span>Total</span><strong class="suma-total">S/0.00</strong>
+        </div>
+        <button type="button" id="generar-pdf">
+          Descargar resumen PDF <span aria-hidden="true">↓</span>
+        </button>
+        <button type="button" id="vaciar_carrito">Vaciar carrito</button>
+        <p id="carrito-error" role="alert"></p>
+      </div>
+    </dialog>
+    <p
+      id="carrito-aviso"
+      class="carrito-aviso"
+      role="status"
+      aria-live="polite"
+    ></p>
 
     <!-- SECCION INICIO -->
     <section id="inicio" class="inicio">
@@ -95,110 +151,146 @@
       </p>
       <div class="entrenadores__grid">
         <div class="class__card">
-          <img src="images/dot-bg.png" alt="bg" class="class__bg" />
-          <img src="images/entrenador1.jpg" alt="class" />
+          <img
+            src="images/entrenador1.webp"
+            alt="class"
+            width="500"
+            height="500"
+            loading="lazy"
+            decoding="async"
+          />
           <div class="class__content">
-            <h4>ANDREA - CARDIO</h4>
-            <p>"La Energía en Movimiento"</p>
+            <span class="entrenador-especialidad">CARDIO</span>
+            <h4>Andrea</h4>
             <p>
-              Experta en mantener tu corazón latiendo fuerte y constante. Sus
-              clases de cardio no solo te desafiarán físicamente, sino que
-              también te contagiarán su energía positiva. Prepárate para sudar y
-              sonreír al mismo tiempo.
+              Mejora tu resistencia con sesiones dinámicas y motivadoras. Andrea
+              te acompaña para avanzar a tu ritmo.
             </p>
           </div>
         </div>
         <div class="class__card">
-          <img src="images/dot-bg.png" alt="bg" class="class__bg" />
-          <img src="images/entrenador2.jpg" alt="class" />
+          <img
+            src="images/entrenador2.webp"
+            alt="class"
+            width="500"
+            height="500"
+            loading="lazy"
+            decoding="async"
+          />
           <div class="class__content">
-            <h4>CARLOS - CROSSFIT</h4>
-            <p>"El Titán del CrossFit"</p>
+            <span class="entrenador-especialidad">CROSSFIT</span>
+            <h4>Carlos</h4>
             <p>
-              Con un enfoque implacable en el rendimiento, Carlos te llevará más
-              allá de tus límites en cada sesión de CrossFit. Su entrenamiento
-              variado y desafiante garantiza resultados notables y un sentido de
-              logro cada vez que entras al box.
+              Desarrolla fuerza y resistencia con entrenamientos variados.
+              Carlos te ayuda a superar tus límites paso a paso.
             </p>
           </div>
         </div>
         <div class="class__card">
-          <img src="images/dot-bg.png" alt="bg" class="class__bg" />
-          <img src="images/entrenador3.jpeg" alt="class" />
+          <img
+            src="images/entrenador3.webp"
+            alt="class"
+            width="500"
+            height="500"
+            loading="lazy"
+            decoding="async"
+          />
           <div class="class__content">
-            <h4>ISABEL - BOXEO</h4>
-            <p>"La Reina del Ring"</p>
+            <span class="entrenador-especialidad">BOXEO</span>
+            <h4>Isabel</h4>
             <p>
-              Trae la intensidad del ring directamente a tus entrenamientos.
-              Aprende las técnicas del boxeo conoce las estrategias mientras te
-              pones en forma y desarrollas fuerza. ¡Con Isabel, cada golpe
-              cuenta para tu bienestar total!
+              Aprende técnica y coordinación mientras te pones en forma. Isabel
+              te guía para ganar confianza en cada golpe.
             </p>
           </div>
         </div>
         <div class="class__card">
-          <img src="images/dot-bg.png" alt="bg" class="class__bg" />
-          <img src="images/entrenador4.jpg" alt="class" />
+          <img
+            src="images/entrenador4.webp"
+            alt="class"
+            width="500"
+            height="500"
+            loading="lazy"
+            decoding="async"
+          />
           <div class="class__content">
-            <h4>DIEGO - BODY</h4>
-            <p>"Escultor Corporal"</p>
+            <span class="entrenador-especialidad">BODY</span>
+            <h4>Diego</h4>
             <p>
-              Maestro en esculpir y tonificar el cuerpo. Con sus clases de Body,
-              te guiará a través de rutinas diseñadas para fortalecer y definir
-              tus músculos. Prepárate para sentirte más fuerte y más esculpido
-              que nunca.
+              Fortalece y tonifica tu cuerpo con rutinas enfocadas. Diego te
+              acompaña para mejorar tu técnica y progresar.
             </p>
           </div>
         </div>
         <div class="class__card">
-          <img src="images/entrenador5.jpg" alt="class" />
+          <img
+            src="images/entrenador5.webp"
+            alt="class"
+            width="500"
+            height="500"
+            loading="lazy"
+            decoding="async"
+          />
           <div class="class__content">
-            <h4>ELENA - AEROBOX</h4>
-            <p>"Ritmo en el Aire"</p>
+            <span class="entrenador-especialidad">AEROBOX</span>
+            <h4>Elena</h4>
             <p>
-              Fusiona la elegancia del baile con la intensidad del boxeo en sus
-              clases de Aerobox. Experimenta la emoción de golpear al ritmo de
-              la música mientras trabajas en tu resistencia y coordinación.
-              ¡Déjate llevar por el ritmo en el aire!
+              Combina movimientos de boxeo con música y energía. Elena te ayuda
+              a trabajar resistencia y coordinación.
             </p>
           </div>
         </div>
         <div class="class__card">
-          <img src="images/entrenador6.jpg" alt="class" />
+          <img
+            src="images/entrenador6.webp"
+            alt="class"
+            width="500"
+            height="500"
+            loading="lazy"
+            decoding="async"
+          />
           <div class="class__content">
-            <h4>JAVIER -AEROBIC</h4>
-            <p>"Aeróbico Maestro"</p>
+            <span class="entrenador-especialidad">AEROBIC</span>
+            <h4>Javier</h4>
             <p>
-              Llevando vitalidad a cada sesión. Con coreografías creativas y
-              música motivadora, te ayudará a mejorar tu resistencia
-              cardiovascular y a disfrutar cada minuto de tu entrenamiento
-              aeróbico. ¡Descubre el placer de moverte con Javier!
+              Activa tu cuerpo con coreografías llenas de ritmo. Javier hace de
+              cada sesión una forma de disfrutar el movimiento.
             </p>
           </div>
         </div>
         <div class="class__card">
-          <img src="images/entrenador7.jpg" alt="class" />
+          <img
+            src="images/entrenador7.webp"
+            alt="class"
+            width="500"
+            height="500"
+            loading="lazy"
+            decoding="async"
+          />
           <div class="class__content">
-            <h4>LAURA - FUNCIONAL</h4>
-            <p>"Fortaleza Funcional"</p>
+            <span class="entrenador-especialidad">FUNCIONAL</span>
+            <h4>Laura</h4>
             <p>
-              Experta en entrenamiento funcional. Sus sesiones desafiantes
-              incorporan movimientos prácticos que fortalecen los músculos que
-              usas en la vida diaria. Descubre una nueva dimensión de fortaleza
-              con Laura es tu mejor opción.
+              Gana fuerza para los movimientos de tu día a día. Laura adapta el
+              entrenamiento a tus objetivos.
             </p>
           </div>
         </div>
         <div class="class__card">
-          <img src="images/entrenador8.jpg" alt="class" />
+          <img
+            src="images/entrenador8.webp"
+            alt="class"
+            width="500"
+            height="500"
+            loading="lazy"
+            decoding="async"
+          />
           <div class="class__content">
-            <h4>MIGUEL - HIIT</h4>
-            <p>"Esfuerzo HIIT"</p>
+            <span class="entrenador-especialidad">HIIT</span>
+            <h4>Miguel</h4>
             <p>
-              Sesiones de entrenamiento de alta intensidad que maximizan el
-              tiempo y queman calorías. Su enfoque en intervalos explosivos te
-              desafiará, mejorará tu resistencia cardiovascular y te ayudará a
-              alcanzar tus metas eficientemente.
+              Entrena con intervalos que desafían tu resistencia. Miguel te guía
+              para dar lo mejor en cada sesión.
             </p>
           </div>
         </div>
@@ -211,39 +303,102 @@
         <h1 class="experiencia__title">TAURO GYM OFRECE</h1>
         <div class="tarjetas__container">
           <div class="tarjeta">
-            <img src="images/ofrece1.jpg" alt="Imagen 1" />
+            <img
+              src="images/ofrece1.webp"
+              alt="Imagen 1"
+              width="720"
+              height="480"
+              loading="lazy"
+              decoding="async"
+            />
             <p>Equipamiento de Calidad</p>
           </div>
           <div class="tarjeta">
-            <img src="images/ofrece2.jpg" alt="Imagen 2" />
+            <img
+              src="images/ofrece2.webp"
+              alt="Imagen 2"
+              width="720"
+              height="480"
+              loading="lazy"
+              decoding="async"
+            />
             <p>Entrenadores Certificados</p>
           </div>
           <div class="tarjeta">
-            <img src="images/ofrece3.jpg" alt="Imagen 3" />
+            <img
+              src="images/ofrece3.webp"
+              alt="Imagen 3"
+              width="720"
+              height="480"
+              loading="lazy"
+              decoding="async"
+            />
             <p>Variedad de disciplinas</p>
           </div>
           <div class="tarjeta">
-            <img src="images/ofrece4.jpg" alt="Imagen 1" />
+            <img
+              src="images/ofrece4.webp"
+              alt="Imagen 1"
+              width="720"
+              height="480"
+              loading="lazy"
+              decoding="async"
+            />
             <p>Comunidad Activa</p>
           </div>
           <div class="tarjeta">
-            <img src="images/ofrece5.jpg" alt="Imagen 2" />
+            <img
+              src="images/ofrece5.webp"
+              alt="Imagen 2"
+              width="720"
+              height="480"
+              loading="lazy"
+              decoding="async"
+            />
             <p>Horarios Flexibles</p>
           </div>
           <div class="tarjeta">
-            <img src="images/ofrece6.jpg" alt="Imagen 3" />
+            <img
+              src="images/ofrece6.webp"
+              alt="Imagen 3"
+              width="720"
+              height="480"
+              loading="lazy"
+              decoding="async"
+            />
             <p>Entrenamiento Funcional</p>
           </div>
           <div class="tarjeta">
-            <img src="images/ofrece7.jpg" alt="Imagen 1" />
+            <img
+              src="images/ofrece7.webp"
+              alt="Imagen 1"
+              width="720"
+              height="480"
+              loading="lazy"
+              decoding="async"
+            />
             <p>Asesoramiento constante</p>
           </div>
           <div class="tarjeta">
-            <img src="images/ofrece8.jpg" alt="Imagen 2" />
+            <img
+              src="images/ofrece8.webp"
+              alt="Imagen 2"
+              width="720"
+              height="480"
+              loading="lazy"
+              decoding="async"
+            />
             <p>Ofertas y promociones</p>
           </div>
           <div class="tarjeta">
-            <img src="images/ofrece9.jpeg" alt="Imagen 3" />
+            <img
+              src="images/ofrece9.webp"
+              alt="Imagen 3"
+              width="720"
+              height="480"
+              loading="lazy"
+              decoding="async"
+            />
             <p>Conectividad</p>
           </div>
         </div>
@@ -254,9 +409,17 @@
     <section>
       <div class="seccion-clases">
         <div class="contenido-clases">
-          <h2>NUESTRAS CLASES</h2>
-          <p>DESAFIAMOS LO IMPOSIBLE</p>
-          <a href="#servicios_principal" class="btn btn-azul">SERVICIOS</a>
+          <div class="llamada-texto">
+            <span class="llamada-etiqueta">ENCUENTRA TU DISCIPLINA</span>
+            <h2>Nuestras clases</h2>
+            <p>
+              Fuerza, cardio o boxeo. Descubre una forma de entrenar que vaya
+              contigo.
+            </p>
+          </div>
+          <a href="#servicios_principal" class="btn btn-azul"
+            >Explorar clases <span aria-hidden="true">→</span></a
+          >
         </div>
       </div>
     </section>
@@ -341,11 +504,19 @@
 
     <!-- SECCION CLASES -->
     <section>
-      <div class="seccion-clases">
+      <div class="seccion-clases seccion-promociones">
         <div class="contenido-clases">
-          <h2>PRECIOS Y PROMOCIONES</h2>
-          <p>DESAFIAMOS LO IMPOSIBLE</p>
-          <a href="#" class="btn btn-wsp">✆ CONSULTA</a>
+          <div class="llamada-texto">
+            <span class="llamada-etiqueta">DA EL PRIMER PASO</span>
+            <h2>Precios y promociones</h2>
+            <p>
+              Consulta nuestros planes y encuentra la opción que mejor se adapte
+              a tus objetivos.
+            </p>
+          </div>
+          <a href="#contacto" class="btn btn-wsp"
+            >Consultar planes <span aria-hidden="true">→</span></a
+          >
         </div>
       </div>
     </section>
@@ -370,12 +541,19 @@
         </div>
         <div class="col">
           <div class="contenedor-img">
-            <img src="images/nosotros.jpeg" alt="" />
+            <img
+              src="images/nosotros.webp"
+              alt=""
+              width="960"
+              height="640"
+              loading="lazy"
+              decoding="async"
+            />
           </div>
         </div>
       </div>
     </section>
-    <section id="sobremi" class="nosotros__container">
+    <section id="mision" class="nosotros__container nosotros__texto">
       <div class="fila">
         <div class="col info">
           <h3>TAURO GYM</h3>
@@ -391,36 +569,10 @@
             experiencia que supere sus expectativas.
           </p>
         </div>
-        <div class="col">
-          <div class="contenedor-img">
-            <img src="images/mision.jpeg" alt="" />
-          </div>
-        </div>
       </div>
     </section>
 
-    <!-- SLIDER -->
-    <section class="slider-container">
-      <div class="slider">
-        <div class="slide">
-          <img src="images/slider01.jpg" alt="Imagen 1" />
-        </div>
-        <div class="slide">
-          <img src="images/slider02.jpg" alt="Imagen 2" />
-        </div>
-        <div class="slide">
-          <img src="images/slider03.jpg" alt="Imagen 3" />
-        </div>
-      </div>
-      <button class="button1" id="prevBtn">◀</button>
-      <button class="button2" id="nextBtn">▶</button>
-    </section>
-
-    <div class="video-container">
-      <video src="./video/promo.mp4" autoplay muted loop></video>
-    </div>
-
-    <section id="sobremi" class="nosotros__container">
+    <section id="vision" class="nosotros__container nosotros__texto">
       <div class="fila">
         <div class="col info">
           <h3>TAURO GYM</h3>
@@ -436,15 +588,10 @@
             miembros una experiencia única y transformadora.
           </p>
         </div>
-        <div class="col">
-          <div class="contenedor-img">
-            <img src="images/vision.jpg" alt="" />
-          </div>
-        </div>
       </div>
     </section>
 
-    <section id="sobremi" class="nosotros__container">
+    <section id="valores" class="nosotros__container nosotros__texto">
       <div class="fila">
         <div class="col info">
           <h3>TAURO GYM</h3>
@@ -460,239 +607,431 @@
             celebrar los logros individuales y colectivos.
           </p>
         </div>
-        <div class="col">
-          <div class="contenedor-img">
-            <img src="images/valores.jpg" alt="" />
-          </div>
-        </div>
       </div>
     </section>
 
     <!-- SECCION SERVICIOS -->
-    <section class="servicios" id="servicios_principal">
-      <h1>VARIEDAD DE DEPORTES</h1>
+    <section
+      class="servicios"
+      id="servicios_principal"
+      aria-labelledby="deportes-titulo"
+    >
+      <div class="seccion-encabezado">
+        <span class="llamada-etiqueta">ENTRENA A TU MANERA</span>
+        <h2 id="deportes-titulo">Variedad de deportes</h2>
+        <p>
+          Elige tu disciplina, revisa los horarios y encuentra tu próxima clase.
+        </p>
+      </div>
       <div class="grid" id="lista-clases">
-        <div class="items">
+        <article class="items">
           <div class="card">
             <div class="front">
-              <img src="images/clases_cardio.jpg" />
+              <img
+                src="images/clases_cardio.webp"
+                alt="Entrenamiento de cardio"
+                width="720"
+                height="480"
+                loading="lazy"
+                decoding="async"
+              />
               <div class="info-service">
-                <h3>CLASES DE CARDIO</h3>
-                <p>
-                  INSTRUCTORA: ANDREA DIAZ ✔️Horarios: Lunes y Viernes ✔️Mañana:
-                  9:00 am - 10:00 am ✔️Tarde: 5:00 pm - 6:00 pm ✔️Costo: 50
-                  soles x sesion
+                <h3>CARDIO</h3>
+                <p class="deporte-descripcion">
+                  Activa tu energía y mejora tu resistencia.
                 </p>
+                <dl class="deporte-datos">
+                  <div>
+                    <dt>Instructor</dt>
+                    <dd>Andrea Díaz</dd>
+                  </div>
+                  <div>
+                    <dt>Días</dt>
+                    <dd>Lunes y viernes</dd>
+                  </div>
+                  <div>
+                    <dt>Horarios</dt>
+                    <dd>09:00 – 10:00 / 17:00 – 18:00</dd>
+                  </div>
+                </dl>
                 <div class="precio">
-                  <p>S/60</p>
-                  <p class="descuento">S/50</p>
+                  <p class="precio-clase">S/50</p>
+                  <span>por sesión</span>
                 </div>
               </div>
             </div>
-            <div class="back">
-              <a href="#form_regpri" class="btn-re">Registrarse</a>
-              <button class="agregar-carrito" data-id="1">
-                Agregar al Carrito
+            <div class="acciones-clase">
+              <button type="button" class="agregar-carrito" data-id="1">
+                Agregar al carrito
               </button>
+              <a href="#form_regpri" class="btn-re" data-curso="cardio"
+                >Inscribirme a esta clase</a
+              >
             </div>
           </div>
-        </div>
+        </article>
 
-        <div class="items">
+        <article class="items">
           <div class="card">
             <div class="front">
-              <img src="images/clases_crossfit.jpg" />
+              <img
+                src="images/clases_crossfit.webp"
+                alt="Entrenamiento de crossfit"
+                width="720"
+                height="480"
+                loading="lazy"
+                decoding="async"
+              />
               <div class="info-service">
-                <h3>CLASES DE CROSSFIT</h3>
-                <p>
-                  INSTRUCTOR: CARLOS ARUE ✔️Horarios: Martes y Jueves ✔️Mañana:
-                  9:00 am - 10:00 am ✔️Tarde: 5:00 pm - 6:00 pm ✔️Costo: 50
-                  soles x sesion
+                <h3>CROSSFIT</h3>
+                <p class="deporte-descripcion">
+                  Fuerza y acondicionamiento en cada sesión.
                 </p>
+                <dl class="deporte-datos">
+                  <div>
+                    <dt>Instructor</dt>
+                    <dd>Carlos Arue</dd>
+                  </div>
+                  <div>
+                    <dt>Días</dt>
+                    <dd>Martes y jueves</dd>
+                  </div>
+                  <div>
+                    <dt>Horarios</dt>
+                    <dd>09:00 – 10:00 / 17:00 – 18:00</dd>
+                  </div>
+                </dl>
                 <div class="precio">
-                  <p>S/60</p>
-                  <p class="descuento">S/50</p>
+                  <p class="precio-clase">S/50</p>
+                  <span>por sesión</span>
                 </div>
               </div>
             </div>
-            <div class="back">
-              <a href="#form_regpri" class="btn-re">Registrarse</a>
-              <button class="agregar-carrito" data-id="2">
-                Agregar al Carrito
+            <div class="acciones-clase">
+              <button type="button" class="agregar-carrito" data-id="2">
+                Agregar al carrito
               </button>
+              <a href="#form_regpri" class="btn-re" data-curso="crossfit"
+                >Inscribirme a esta clase</a
+              >
             </div>
           </div>
-        </div>
+        </article>
 
-        <div class="items">
+        <article class="items">
           <div class="card">
             <div class="front">
-              <img src="images/clases_boxeo.jpeg" />
+              <img
+                src="images/clases_boxeo.webp"
+                alt="Entrenamiento de boxeo"
+                width="720"
+                height="480"
+                loading="lazy"
+                decoding="async"
+              />
               <div class="info-service">
-                <h3>CLASES DE BOXEO</h3>
-                <p>
-                  INSTRUCTORA: ISABEL PALMA ✔️Horarios: Miércoles y Sábados
-                  ✔️Mañana: 9:00 am - 10:00 am ✔️Tarde: 5:00 pm - 6:00 pm
-                  ✔️Costo: 60 soles x sesion
+                <h3>BOXEO</h3>
+                <p class="deporte-descripcion">
+                  Técnica, coordinación y confianza en movimiento.
                 </p>
+                <dl class="deporte-datos">
+                  <div>
+                    <dt>Instructor</dt>
+                    <dd>Isabel Palma</dd>
+                  </div>
+                  <div>
+                    <dt>Días</dt>
+                    <dd>Miércoles y sábados</dd>
+                  </div>
+                  <div>
+                    <dt>Horarios</dt>
+                    <dd>09:00 – 10:00 / 17:00 – 18:00</dd>
+                  </div>
+                </dl>
                 <div class="precio">
-                  <p>S/70</p>
-                  <p class="descuento">S/60</p>
+                  <p class="precio-clase">S/60</p>
+                  <span>por sesión</span>
                 </div>
               </div>
             </div>
-            <div class="back">
-              <a href="#form_regpri" class="btn-re">Registrarse</a>
-              <button class="agregar-carrito" data-id="3">
-                Agregar al Carrito
+            <div class="acciones-clase">
+              <button type="button" class="agregar-carrito" data-id="3">
+                Agregar al carrito
               </button>
+              <a href="#form_regpri" class="btn-re" data-curso="boxeo"
+                >Inscribirme a esta clase</a
+              >
             </div>
           </div>
-        </div>
+        </article>
 
-        <div class="items">
+        <article class="items">
           <div class="card">
             <div class="front">
-              <img src="images/clases_body.jpg" />
+              <img
+                src="images/clases_body.webp"
+                alt="Entrenamiento de body"
+                width="720"
+                height="480"
+                loading="lazy"
+                decoding="async"
+              />
               <div class="info-service">
-                <h3>CLASES DE BODY</h3>
-                <p>
-                  INSTRUCTOR: DIEGO YURIKO ✔️Horarios: Lunes y Viernes ✔️Mañana:
-                  11:00 am - 12:00 am ✔️Tarde: 8:00 pm - 9:00 pm ✔️Costo: 50
-                  soles x sesion
+                <h3>BODY</h3>
+                <p class="deporte-descripcion">
+                  Trabaja fuerza y tonificación de todo el cuerpo.
                 </p>
+                <dl class="deporte-datos">
+                  <div>
+                    <dt>Instructor</dt>
+                    <dd>Diego Yuriko</dd>
+                  </div>
+                  <div>
+                    <dt>Días</dt>
+                    <dd>Lunes y viernes</dd>
+                  </div>
+                  <div>
+                    <dt>Horarios</dt>
+                    <dd>11:00 – 12:00 / 20:00 – 21:00</dd>
+                  </div>
+                </dl>
                 <div class="precio">
-                  <p>S/60</p>
-                  <p class="descuento">S/50</p>
+                  <p class="precio-clase">S/50</p>
+                  <span>por sesión</span>
                 </div>
               </div>
             </div>
-            <div class="back">
-              <a href="#form_regpri" class="btn-re">Registrarse</a>
-              <button class="agregar-carrito" data-id="4">
-                Agregar al Carrito
+            <div class="acciones-clase">
+              <button type="button" class="agregar-carrito" data-id="4">
+                Agregar al carrito
               </button>
+              <a href="#form_regpri" class="btn-re" data-curso="body"
+                >Inscribirme a esta clase</a
+              >
             </div>
           </div>
-        </div>
+        </article>
 
-        <div class="items">
+        <article class="items">
           <div class="card">
             <div class="front">
-              <img src="images/clases_aerobox.jpg" />
+              <img
+                src="images/clases_aerobox.webp"
+                alt="Entrenamiento de aerobox"
+                width="720"
+                height="480"
+                loading="lazy"
+                decoding="async"
+              />
               <div class="info-service">
-                <h3>CLASES DE AEROBOX</h3>
-                <p>
-                  INSTRUCTORA: ELENA VARGAS ✔️Horarios: Martes y Jueves
-                  ✔️Mañana: 11:00 am - 12:00 am ✔️Tarde: 8:00 pm - 9:00 pm
-                  ✔️Costo: 50 soles x sesion
+                <h3>AEROBOX</h3>
+                <p class="deporte-descripcion">
+                  Combina boxeo, música y entrenamiento aeróbico.
                 </p>
+                <dl class="deporte-datos">
+                  <div>
+                    <dt>Instructor</dt>
+                    <dd>Elena Vargas</dd>
+                  </div>
+                  <div>
+                    <dt>Días</dt>
+                    <dd>Martes y jueves</dd>
+                  </div>
+                  <div>
+                    <dt>Horarios</dt>
+                    <dd>11:00 – 12:00 / 20:00 – 21:00</dd>
+                  </div>
+                </dl>
                 <div class="precio">
-                  <p>S/60</p>
-                  <p class="descuento">S/50</p>
+                  <p class="precio-clase">S/50</p>
+                  <span>por sesión</span>
                 </div>
               </div>
             </div>
-            <div class="back">
-              <a href="#form_regpri" class="btn-re">Registrarse</a>
-              <button class="agregar-carrito" data-id="5">
-                Agregar al Carrito
+            <div class="acciones-clase">
+              <button type="button" class="agregar-carrito" data-id="5">
+                Agregar al carrito
               </button>
+              <a href="#form_regpri" class="btn-re" data-curso="aerobox"
+                >Inscribirme a esta clase</a
+              >
             </div>
           </div>
-        </div>
+        </article>
 
-        <div class="items">
+        <article class="items">
           <div class="card">
             <div class="front">
-              <img src="images/clases_aerobic.jpg" />
+              <img
+                src="images/clases_aerobic.webp"
+                alt="Entrenamiento de aerobic"
+                width="720"
+                height="480"
+                loading="lazy"
+                decoding="async"
+              />
               <div class="info-service">
-                <h3>CLASES DE AEROBIC</h3>
-                <p>
-                  INSTRUCTOR: JAVIER KORI ✔️Horarios: Miércoles y Sábados
-                  ✔️Mañana: 11:00 am - 12:00 am ✔️Tarde: 8:00 pm - 9:00 pm
-                  ✔️Costo: 60 soles x sesion
+                <h3>AEROBIC</h3>
+                <p class="deporte-descripcion">
+                  Muévete al ritmo de una clase llena de energía.
                 </p>
+                <dl class="deporte-datos">
+                  <div>
+                    <dt>Instructor</dt>
+                    <dd>Javier Kori</dd>
+                  </div>
+                  <div>
+                    <dt>Días</dt>
+                    <dd>Miércoles y sábados</dd>
+                  </div>
+                  <div>
+                    <dt>Horarios</dt>
+                    <dd>11:00 – 12:00 / 20:00 – 21:00</dd>
+                  </div>
+                </dl>
                 <div class="precio">
-                  <p>S/70</p>
-                  <p class="descuento">S/60</p>
+                  <p class="precio-clase">S/60</p>
+                  <span>por sesión</span>
                 </div>
               </div>
             </div>
-            <div class="back">
-              <a href="#form_regpri" class="btn-re">Registrarse</a>
-              <button class="agregar-carrito" data-id="6">
-                Agregar al Carrito
+            <div class="acciones-clase">
+              <button type="button" class="agregar-carrito" data-id="6">
+                Agregar al carrito
               </button>
+              <a href="#form_regpri" class="btn-re" data-curso="aerobic"
+                >Inscribirme a esta clase</a
+              >
             </div>
           </div>
-        </div>
+        </article>
       </div>
     </section>
 
     <!-- FORM_REGISTRO -->
-    <section class="containerreg" id="form_regpri">
+    <section
+      class="containerreg"
+      id="form_regpri"
+      aria-labelledby="registro-titulo"
+    >
       <div class="registro">
-        <h1>REGISTRO</h1>
+        <div class="registro-encabezado">
+          <span class="llamada-etiqueta">TU PRÓXIMO PASO</span>
+          <h2 id="registro-titulo">Empieza a entrenar con nosotros</h2>
+          <p>
+            Déjanos tus datos y elige la clase que te interesa. Todos los campos
+            son obligatorios.
+          </p>
+        </div>
         <form
           id="registroForm"
           action="https://formsubmit.co/example@example.com"
           method="POST"
-          onsubmit="return enviarFormulario();"
+          novalidate
         >
-          <input
-            class="controls"
-            type="text"
-            id="nombre_reg"
-            placeholder="Ingrese su Nombre"
-            name="nombre"
-            required
-            autocomplete="off"
-          />
-
-          <input
-            class="controls"
-            type="text"
-            id="apellidos_reg"
-            placeholder="Ingrese su Apellido"
-            name="apellidos"
-            required
-            autocomplete="off"
-          />
-
-          <input
-            class="controls"
-            type="tel"
-            id="telefono_reg"
-            placeholder="Ingrese su Telefono"
-            name="telefono"
-            required
-            autocomplete="off"
-          />
-
-          <select id="curso_reg" name="curso">
-            <option value="seleccionar">--Selecciona--</option>
-            <option value="cardio">Clases de Cardio</option>
-            <option value="box">Clases de Crossfit</option>
-            <option value="crossfit">Clases de Boxeo</option>
-            <option value="body">Clases de Body</option>
-            <option value="aerobox">Clases de AeroBox</option>
-            <option value="aerobic">Clases de Aerobic</option>
-          </select>
-
-          <input
-            class="controls"
-            type="email"
-            id="correo_reg"
-            placeholder="Ingrese su Correo"
-            name="correo"
-            required
-            autocomplete="off"
-          />
-
-          <div class="btton">
-            <button class="find" type="button" onclick="validarFormulario()">
-              Registrarse
+          <div class="campo-registro">
+            <label for="nombre_reg">Nombre</label>
+            <input
+              class="controls"
+              type="text"
+              id="nombre_reg"
+              name="nombre"
+              placeholder="Tu nombre"
+              required
+              autocomplete="given-name"
+              aria-describedby="error-nombre_reg"
+            />
+            <span
+              class="error-campo"
+              id="error-nombre_reg"
+              aria-live="polite"
+            ></span>
+          </div>
+          <div class="campo-registro">
+            <label for="apellidos_reg">Apellidos</label>
+            <input
+              class="controls"
+              type="text"
+              id="apellidos_reg"
+              name="apellidos"
+              placeholder="Tus apellidos"
+              required
+              autocomplete="family-name"
+              aria-describedby="error-apellidos_reg"
+            />
+            <span
+              class="error-campo"
+              id="error-apellidos_reg"
+              aria-live="polite"
+            ></span>
+          </div>
+          <div class="campo-registro">
+            <label for="telefono_reg">Celular</label>
+            <input
+              class="controls"
+              type="tel"
+              id="telefono_reg"
+              name="telefono"
+              placeholder="Ej. 987654321"
+              required
+              autocomplete="tel-national"
+              inputmode="numeric"
+              pattern="[0-9]{9}"
+              maxlength="9"
+              aria-describedby="ayuda-telefono error-telefono_reg"
+            />
+            <span class="ayuda-campo" id="ayuda-telefono"
+              >Ingresa los 9 dígitos de tu celular.</span
+            >
+            <span
+              class="error-campo"
+              id="error-telefono_reg"
+              aria-live="polite"
+            ></span>
+          </div>
+          <div class="campo-registro">
+            <label for="curso_reg">Clase de interés</label>
+            <select
+              id="curso_reg"
+              name="curso"
+              required
+              aria-describedby="error-curso_reg"
+            >
+              <option value="">Selecciona una clase</option>
+              <option value="cardio">Cardio</option>
+              <option value="crossfit">Crossfit</option>
+              <option value="boxeo">Boxeo</option>
+              <option value="body">Body</option>
+              <option value="aerobox">Aerobox</option>
+              <option value="aerobic">Aerobic</option>
+            </select>
+            <span
+              class="error-campo"
+              id="error-curso_reg"
+              aria-live="polite"
+            ></span>
+          </div>
+          <div class="campo-registro campo-completo">
+            <label for="correo_reg">Correo electrónico</label>
+            <input
+              class="controls"
+              type="email"
+              id="correo_reg"
+              name="correo"
+              placeholder="tu@correo.com"
+              required
+              autocomplete="email"
+              aria-describedby="error-correo_reg"
+            />
+            <span
+              class="error-campo"
+              id="error-correo_reg"
+              aria-live="polite"
+            ></span>
+          </div>
+          <div class="btton campo-completo">
+            <button class="find" type="submit">
+              Registrarme <span aria-hidden="true">→</span>
             </button>
           </div>
         </form>
@@ -711,46 +1050,66 @@
         </div>
         <div class="fila">
           <div class="col">
-            <img src="images/galeria1.jpg" alt="" />
+            <img
+              src="images/galeria1.webp"
+              alt=""
+              width="720"
+              height="480"
+              loading="lazy"
+              decoding="async"
+            />
           </div>
           <div class="col">
-            <img src="images/galeria2.jpg" alt="" />
+            <img
+              src="images/galeria2.webp"
+              alt=""
+              width="720"
+              height="480"
+              loading="lazy"
+              decoding="async"
+            />
           </div>
           <div class="col">
-            <img src="images/galeria3.jpg" alt="" />
+            <img
+              src="images/galeria3.webp"
+              alt=""
+              width="720"
+              height="480"
+              loading="lazy"
+              decoding="async"
+            />
           </div>
         </div>
         <div class="fila">
           <div class="col">
-            <img src="images/galeria4.jpg" alt="" />
+            <img
+              src="images/galeria4.webp"
+              alt=""
+              width="720"
+              height="480"
+              loading="lazy"
+              decoding="async"
+            />
           </div>
           <div class="col">
-            <img src="images/galeria5.jpg" alt="" />
+            <img
+              src="images/galeria5.webp"
+              alt=""
+              width="720"
+              height="480"
+              loading="lazy"
+              decoding="async"
+            />
           </div>
           <div class="col">
-            <img src="images/galeria6.jpg" alt="" />
-          </div>
-        </div>
-        <div class="fila">
-          <div class="col">
-            <img src="images/galeria7.jpg" alt="" />
-          </div>
-          <div class="col">
-            <img src="images/galeria8.jpg" alt="" />
-          </div>
-          <div class="col">
-            <img src="images/galeria9.jpg" alt="" />
-          </div>
-        </div>
-        <div class="fila">
-          <div class="col">
-            <img src="images/galeria10.jpg" alt="" />
-          </div>
-          <div class="col">
-            <img src="images/galeria11.jpg" alt="" />
-          </div>
-          <div class="col">
-            <img src="images/galeria12.jpg" alt="" />
+            <img
+              src="images/galeria6.webp"
+              alt=""
+              width="720"
+              height="480"
+              loading="lazy"
+              decoding="async"
+            />
           </div>
         </div>
       </div>
@@ -823,8 +1182,7 @@
     <footer class="footer">
       <div class="info">
         <p>
-          <span class="txtRojo">TAURO GYM</span> Todos los derechos
-          reservados
+          <span class="txtRojo">TAURO GYM</span> Todos los derechos reservados
         </p>
         <div class="redes">
           <a href="https://www.facebook.com" target="blank_">
@@ -846,12 +1204,9 @@
 </html>
 <script src="./js/menu.js"></script>
 <script src="./js/acordeon.js"></script>
-<script src="./js/registro.js"></script>
-<script src="./js/slider.js"></script>
+
 <script src="./js/carrito.js"></script>
-<script src="./js/girocards.js"></script>
+
 <script src="./js/form_contacto.js"></script>
 <script src="./js/form_registro.js"></script>
 <script src="./js/footer.js"></script>
-
-

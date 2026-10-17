@@ -1,52 +1,44 @@
-function validarFormulario() {
-  var nombre = document.getElementById("nombre_reg").value;
-  var apellidos = document.getElementById("apellidos_reg").value;
-  var telefono = document.getElementById("telefono_reg").value;
-  var correo = document.getElementById("correo_reg").value;
-  var curso = document.getElementById("curso_reg").value; //
+const registroForm = document.getElementById("registroForm");
+const camposRegistro = [...registroForm.querySelectorAll("input, select")];
 
-  // Validar que los campos no estén vacíos
-  if (nombre === "" || apellidos === "" || telefono === "" || correo === "") {
-    alert("Por favor, complete todos los campos.");
-    return false;
+function validarCampoRegistro(campo) {
+  let mensaje = "";
+  if (!campo.value.trim()) {
+    mensaje =
+      campo.tagName === "SELECT"
+        ? "Selecciona una clase."
+        : "Completa este campo.";
+  } else if (campo.id === "telefono_reg" && !/^\d{9}$/.test(campo.value)) {
+    mensaje = "Ingresa un celular de 9 dígitos.";
+  } else if (campo.type === "email" && !campo.validity.valid) {
+    mensaje = "Ingresa un correo electrónico válido.";
   }
-
-  // Validar el formato del correo electrónico
-  var emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-  if (!emailPattern.test(correo)) {
-    alert("Ingrese el correo electronico válido.");
-    return false;
-  }
-
-  // Validar el formato del número de teléfono (9 dígitos)
-  var phonePattern = /^\d{9}$/;
-  if (!phonePattern.test(telefono)) {
-    alert("Ingrese un número de teléfono válido (9 dígitos).");
-    return false;
-  }
-
-   // Validar que se haya seleccionado un curso
-  if (curso === "seleccionar") {
-    alert("Por favor, seleccione un curso.");
-    return false;
-  }
-
-  // Si todos los campos están validados, mostrar un mensaje de registro exitoso
-  alert("¡Registro exitoso!");
-
-  // Enviar el formulario y limpiar después
-  enviarFormulario();
-
-  return false;
+  document.getElementById(`error-${campo.id}`).textContent = mensaje;
+  campo.setAttribute("aria-invalid", String(Boolean(mensaje)));
+  return !mensaje;
 }
 
-function enviarFormulario() {
-  // Obtener el formulario
-  var formulario = document.getElementById("registroForm");
+camposRegistro.forEach((campo) => {
+  campo.addEventListener("blur", () => validarCampoRegistro(campo));
+  campo.addEventListener("input", () => {
+    if (campo.getAttribute("aria-invalid") === "true")
+      validarCampoRegistro(campo);
+  });
+  campo.addEventListener("change", () => validarCampoRegistro(campo));
+});
 
-  // Enviar el formulario
-  formulario.submit();
+registroForm.addEventListener("submit", (event) => {
+  const resultados = camposRegistro.map(validarCampoRegistro);
+  if (resultados.includes(false)) {
+    event.preventDefault();
+    camposRegistro[resultados.indexOf(false)].focus();
+  }
+});
 
-  // Limpiar el formulario
-  formulario.reset();
-}
+document.querySelectorAll("[data-curso]").forEach((enlace) => {
+  enlace.addEventListener("click", () => {
+    const curso = document.getElementById("curso_reg");
+    curso.value = enlace.dataset.curso;
+    validarCampoRegistro(curso);
+  });
+});
