@@ -62,7 +62,7 @@ El enfoque principal del proyecto es mejorar la **experiencia del usuario** y pr
 
 ## 🎨 Vista del proyecto
 
-<img width="806" height="334" alt="project-2" src="https://github.com/user-attachments/assets/c7955179-2f6e-4811-b5d4-4e18ff68dda2" />
+<img width="730" height="368" alt="tauroGym" src="https://github.com/user-attachments/assets/618129f6-eec0-4617-955b-40ed1ded075e" />
 
 ---
 
