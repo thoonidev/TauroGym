@@ -1,0 +1,241 @@
+.seccion-encabezado {
+  max-width: 700px;
+  margin: 0 auto 36px;
+  text-align: center;
+  padding: 0 20px;
+}
+.seccion-encabezado h2,
+.registro-encabezado h2 {
+  font-size: clamp(1.8rem, 3vw, 2.5rem);
+  line-height: 1.2;
+  margin: 12px 0;
+  color: #f1f5fc;
+}
+.seccion-encabezado p,
+.registro-encabezado p {
+  color: #b5c2d5;
+  line-height: 1.65;
+}
+.servicios {
+  padding: 72px 20px 32px;
+}
+.servicios .grid {
+  display: grid;
+  max-width: 1168px;
+  margin: auto;
+  gap: 24px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.items {
+  background: #142239;
+  border: 1px solid #2a3d57;
+  border-radius: 16px;
+  overflow: hidden;
+  min-width: 0;
+}
+.items .card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.items .front {
+  flex: 1;
+}
+.items img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  display: block;
+}
+.info-service {
+  padding: 24px 24px 16px;
+}
+.info-service h3 {
+  font-size: 1.3rem;
+  color: #fff;
+  margin-bottom: 12px;
+}
+.deporte-descripcion {
+  color: #b5c2d5;
+  line-height: 1.55;
+  min-height: 3.1em;
+}
+.deporte-datos {
+  border-top: 1px solid #2a3d57;
+  padding-top: 16px;
+  margin-top: 20px;
+}
+.deporte-datos div {
+  margin-bottom: 12px;
+}
+.deporte-datos dt {
+  font-size: 12px;
+  color: #a1b3cc;
+  margin-bottom: 4px;
+}
+.deporte-datos dd {
+  color: #e7eef9;
+  font-size: 14px;
+  line-height: 1.5;
+}
+.precio {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+.precio .precio-clase {
+  color: #fff;
+  font-size: 30px;
+  font-weight: 800;
+}
+.precio span {
+  color: #a1b3cc;
+  font-size: 13px;
+}
+.acciones-clase {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 8px 24px 24px;
+}
+.agregar-carrito,
+.registro .find {
+  background: #008cff;
+  color: #fff;
+  border: 0;
+  border-radius: 9px;
+  padding: 15px 20px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.agregar-carrito:hover,
+.registro .find:hover {
+  background: #006dc9;
+}
+.btn-re {
+  text-align: center;
+  color: #80c6ff;
+  font-size: 14px;
+  text-decoration: none;
+  padding: 5px;
+}
+.btn-re:hover {
+  text-decoration: underline;
+}
+.btn-re:focus-visible,
+.agregar-carrito:focus-visible,
+.registro .find:focus-visible {
+  outline: 3px solid #80c6ff;
+  outline-offset: 3px;
+}
+.containerreg {
+  padding: 64px 20px;
+}
+.registro {
+  width: 100%;
+  max-width: 850px;
+  margin: auto;
+  padding: 40px;
+  background: #142239;
+  border: 1px solid #2a3d57;
+  border-radius: 20px;
+  color: #f1f5fc;
+}
+.registro-encabezado {
+  margin-bottom: 32px;
+  max-width: 640px;
+}
+#registroForm {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+}
+.campo-registro {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+.campo-registro label {
+  font-size: 14px;
+  font-weight: 600;
+}
+.campo-completo {
+  grid-column: 1 / -1;
+}
+.registro input,
+.registro select {
+  width: 100%;
+  min-width: 0;
+  background: #0b1729;
+  color: #f1f5fc;
+  border: 1px solid #405572;
+  border-radius: 8px;
+  padding: 14px;
+  font-size: 16px;
+  min-height: 48px;
+}
+.registro input::placeholder {
+  color: #91a5c0;
+}
+.registro input:focus,
+.registro select:focus {
+  outline: 2px solid #65bdff;
+  outline-offset: 2px;
+}
+.registro [aria-invalid="true"] {
+  border-color: #ff9f9f;
+}
+.ayuda-campo {
+  color: #a1b3cc;
+  font-size: 12px;
+}
+.error-campo {
+  color: #ffb6b6;
+  font-size: 13px;
+  line-height: 1.4;
+}
+.error-campo:empty {
+  display: none;
+}
+.registro .find {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+.class__content {
+  padding: 20px;
+}
+.class__content h4 {
+  line-height: 1.4;
+  margin-bottom: 10px;
+}
+.class__content p {
+  color: #d2dced;
+}
+@media (max-width: 900px) {
+  .servicios .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 600px) {
+  .servicios .grid,
+  #registroForm {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .registro {
+    padding: 28px 20px;
+  }
+  .containerreg {
+    padding: 40px 16px;
+  }
+  .deporte-descripcion {
+    min-height: 0;
+  }
+}
